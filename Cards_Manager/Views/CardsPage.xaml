@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Cards_Manager.Views.CardsPage"
+   >
+    <StackLayout>
+        <StackLayout>
+            <Label Text="Name" />
+        <Entry Text="{Binding Name}"
+                />
+
+        <Label Text="Card Type" />
+        <Picker x:Name="picker"
+                Title="SelectType"
+                TitleColor="Red"
+                SelectedItem="{Binding Type}">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Visa</x:String>
+                    <x:String>Ticket</x:String>
+                    <x:String>MasterCard</x:String>
+                </x:Array>
+                
+            </Picker.ItemsSource>
+        </Picker>
+        <Label Text="Amount" />
+        <Entry Text="{Binding Amount}"/>
+        </StackLayout>
+        <StackLayout>
+            <StackLayout Orientation="Horizontal"
+                     HorizontalOptions="CenterAndExpand">
+            <Button Text="DelDb" Command="{Binding ListViewModel.DelFromDbCommand}"
+                    CommandParameter="{Binding}"/>
+            <Button Text="SaveDb" Command="{Binding ListViewModel.SaveToDbCommand}"
+                    CommandParameter="{Binding}"/>
+            <Button Text="Save" Command="{Binding ListViewModel.SaveCardCommand}"
+                    CommandParameter="{Binding}"
+                    />
+            <Button Text="Remove" Command="{Binding ListViewModel.DelCardCommand}"
+                    CommandParameter="{Binding}"
+                    />
+            <Button Text="Back" Command="{Binding Path = ListViewModel.BackCommand}"
+                                        />
+            </StackLayout>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

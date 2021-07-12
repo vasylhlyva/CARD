@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Cards_Manager.Views.CardsListViewPage"
+    Title="Cards Manager"
+    >
+    <StackLayout>
+        <Button
+            Text="Add"
+            Command="{Binding AddCardCommand}"  
+        />
+        <ListView x:Name="Cards_List" ItemsSource="{Binding CardsObserverList}"
+                  
+                  SelectedItem="{Binding SelectedCard}"
+                  HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ImageCell                                
+                               ImageSource="{Binding Type}"
+                               Text="{Binding Name}"
+                               
+                               Detail="{Binding Amount}"
+                               TextColor="DarkRed"
+                               DetailColor="GreenYellow"
+                               >
+                        
+                    </ImageCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>   
+</ContentPage>

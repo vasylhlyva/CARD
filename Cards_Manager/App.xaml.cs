@@ -1,6 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Cards_Manager.Views;
 
 namespace Cards_Manager
 {
@@ -10,7 +11,7 @@ namespace Cards_Manager
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new CardsListViewPage());
         }
 
         protected override void OnStart()
