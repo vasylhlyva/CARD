@@ -8,37 +8,34 @@ using MySqlConnector;
 
 namespace Cards_Manager.ViewModels
 {
-    public class CardsListViewModel : INotifyPropertyChanged
+    public class CardsListViewModel : ImplementsINotifyPCh
     {
-        public ObservableCollection<CardsViewModels> CardsObserverList { get; set; }
-        public event PropertyChangedEventHandler PropertyChanged;
+        public ObservableCollection<CardViewModel> CardsObserverList { get; set; }
+        
         public ICommand AddCardCommand { set; get; }
         public ICommand DelCardCommand {  set; get; }
         public ICommand SaveCardCommand {  set; get; }
         public ICommand BackCommand { set; get; }
         public ICommand SaveToDbCommand { set; get; }
         public ICommand DelFromDbCommand { set; get; }
-        CardsViewModels SelectedCard;
+        CardViewModel SelectedCard;
         public INavigation Navigation { get; set; }
-        protected void OnPropertyChanged(string pName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(pName));
-        }
+        
         public CardsListViewModel()
         {
-            CardsObserverList = new ObservableCollection<CardsViewModels>();
+            CardsObserverList = new ObservableCollection<CardViewModel>();
             OnPropertyChanged(nameof(CardsObserverList));
             DelFromDbCommand = new Command(DelFromDb);
             SaveToDbCommand = new Command(SaveToDb);
             AddCardCommand = new Command(AddCard);
             DelCardCommand = new Command(DeleteCard);
-            SaveCardCommand = new Command(SaveCard);
+            
             BackCommand = new Command(Back);
         }
 
         private void DelFromDb(object Cardobj)
         {
-            CardsViewModels Card = Cardobj as CardsViewModels;
+            CardViewModel Card = Cardobj as CardViewModel;
 
             if (Card != null)
             {
@@ -58,7 +55,7 @@ namespace Cards_Manager.ViewModels
 
         private void SaveToDb(object Cardobj)
         {
-            CardsViewModels Card = Cardobj as CardsViewModels;
+            CardViewModel Card = Cardobj as CardViewModel;
             
             if (Card != null)
             {
@@ -76,24 +73,24 @@ namespace Cards_Manager.ViewModels
             }
         }
 
-        public CardsViewModels SelectCard
+        public CardViewModel SelectCard
         {
             get { return SelectedCard; }
             set
             {
                 if (SelectedCard != value)
                 {
-                    CardsViewModels temporarycard = value;
+                    CardViewModel temporarycard = value;
                     SelectCard = null;
                     OnPropertyChanged("Select Card");
-                    Navigation.PushAsync(new CardsPage(temporarycard));
+                    Navigation.PushAsync(new CardPage(temporarycard));
                 }
             }
             
         }
         public  void DeleteCard (object Cardobj)
         {
-            CardsViewModels Card = Cardobj as CardsViewModels;
+            CardViewModel Card = Cardobj as CardViewModel;
             if (Card != null)
             {
                 foreach(var card in CardsObserverList)
@@ -114,18 +111,10 @@ namespace Cards_Manager.ViewModels
         {
            await Navigation.PopAsync();
         }
-        public void SaveCard(object Cardobj)
-        {
-            CardsViewModels Card = Cardobj as CardsViewModels;
-            if (Card != null)
-            {
-                CardsObserverList.Add(Card);
-            }
-            Back();
-        }
+        
         private void AddCard()
         {
-            Navigation.PushAsync(new CardsPage(new CardsViewModels()
+            Navigation.PushAsync(new CardPage(new CardViewModel()
             { ListViewModel = this }));
         }
     }
