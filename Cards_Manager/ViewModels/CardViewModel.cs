@@ -1,64 +1,76 @@
 ﻿using System;
 using Cards_Manager.Models;
 using System.ComponentModel;
+using System.Windows.Input;
+using Xamarin.Forms;
+using System.Linq;
+using Cards_Manager.Views;
+using System.Threading.Tasks;
+
 namespace Cards_Manager.ViewModels
 {
-    public class CardViewModel : ImplementsINotifyPCh
+    public class CardViewModel : BaseViewModel
     {
-        
-        CardsListViewModel CardsListViewModel;
-        public Card card { get; set; }
-        public CardViewModel()
+        private Card card;             
+
+        public Card Card
         {
-            card = new Card();
-        }
-        public CardsListViewModel ListViewModel
-        {
-            get { return CardsListViewModel; }
+            get => card;
             set
             {
-                if(CardsListViewModel != value){
-                    CardsListViewModel = value;
-                    OnPropertyChanged("ListViewModel");
-                }
+                card = value;
+                OnPropertyChanged(nameof(Card));
             }
         }
-       
-        public int Amount
+
+        public ICommand DelCardCommand { get; set; }
+        public ICommand SaveCardCommand { get; set; }
+        public ICommand EditCardCommand { get; set; }
+        //public ICommand SaveEditedCardCommand { get; set; }
+        public ICommand GenerateIdCommand { get; set; }
+
+        public CardViewModel(INavigation navigation, Card card = null) : base(navigation)
         {
-            get { return card.Amount; }
-            set
+            SaveCardCommand = new Command(SaveCard);
+            DelCardCommand = new Command(DeleteCard);            
+            //SaveEditedCardCommand = new Command(SaveEditedCard);
+            GenerateIdCommand = new Command(GetId);            
+            if (card != null)
             {
-                card.Amount = value;
-                OnPropertyChanged("Amount");
+                Card = card;
             }
-        }
-        public string Type
-        {
-            get { return card.Type; }
-            set
+            else
             {
-                card.Type = value;
-                OnPropertyChanged("Type");
+                Card = new Card();
             }
         }
-        public string Name
+
+        public void GetId()
         {
-            get { return card.Name; }
-            set
+            var random = new Random();
+            string createdStringForId = string.Empty;
+            for (int i = 0; i < 10; i++)
             {
-                card.Name = value;
-                OnPropertyChanged("Name");
+                createdStringForId = String.Concat(createdStringForId, random.Next(10).ToString());
             }
+            Card.Id = createdStringForId;
         }
-    }
-    public class ImplementsINotifyPCh : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string pName)
+
+        public void DeleteCard()
+        {            
+            CardManager.Instance.DeleteCard(Card);
+            Back();
+        }        
+
+        /*public void SaveEditedCard()
+        {            
+            Back();
+        }*/
+
+        public void SaveCard()
         {
-            
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(pName));
+            CardManager.Instance.AddCardToList(Card);            
+            Back();
         }
     }
 }

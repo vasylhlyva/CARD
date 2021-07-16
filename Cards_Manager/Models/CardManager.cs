@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Cards_Manager.ViewModels;
@@ -7,62 +8,41 @@ using Xamarin.Forms;
 
 namespace Cards_Manager.Models
 {
-    public class CardManager : ImplementsINotifyPCh
+    public class CardManager
     {
-        CardsListViewModel CardsListViewModel;
-        public static ObservableCollection<CardViewModel> CardsObserverList { get; set; }
-        CardViewModel SelectedCard;
-        public ICommand AddCardCommand { set; get; }
-        public ICommand DelCardCommand { set; get; }
-        public static INavigation Navigation { get; set; }
-        public static CardManager _instance;
-        public static CardManager GetInstance()
-        {
-            if(_instance == null)
-            {
-                _instance = new CardManager();
-            }
-            return _instance;
-        }
+        public static CardManager instance;
+        public static CardManager Instance => instance ?? (instance = new CardManager());
+
+        public List<Card> CardsList { get; }
 
         private CardManager()
         {
-            CardsObserverList = new ObservableCollection<CardViewModel>();
-            AddCardCommand = new Command(AddCardToList);
-            DelCardCommand = new Command(DeleteCard);
+            CardsList = new List<Card>();           
         }
 
-        public static void AddCardToList(object Cardobj)
-        {
-            CardViewModel card = Cardobj as CardViewModel;
+        public void AddCardToList(Card card)
+        {             
             if (card != null)
             {
-                CardsObserverList.Add(card);
-            }
-            Back();
+                CardsList.Add(card);
+            }            
         }
 
-        public static void DeleteCard(object Cardobj)
-        {
-            CardViewModel Card = Cardobj as CardViewModel;
+        public void DeleteCard(Card Card)
+        {            
             if (Card != null)
             {
-                foreach (var card in CardsObserverList)
+                foreach (var card in CardsList)
                 {
                     if (Card.Name != card.Name || Card.Amount != card.Amount)
                     {
                         continue;
                     }
-                    CardsObserverList.Remove(card);
+                    CardsList.Remove(card);
                     break;
                 }             
             }
-            Back();
-        }
-        
-        public static async void Back()
-        {
-            await Navigation.PopAsync();
-        }        
+        }    
+
     }
 }

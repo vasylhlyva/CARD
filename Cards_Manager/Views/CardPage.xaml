@@ -6,42 +6,53 @@
    >
     <StackLayout>
         <StackLayout>
-            <Label Text="Name" />
-        <Entry Text="{Binding Name}"
+            <Label
+                Text="Id"
                 />
-
+            <Entry
+                Text="{Binding Card.Id}"
+                />
+            <Label Text="Name" />
+        <Entry Text="{Binding Card.Name}"
+                />
         <Label Text="Card Type" />
         <Picker x:Name="picker"
                 Title="SelectType"
                 TitleColor="Red"
-                SelectedItem="{Binding Type}">
+                SelectedItem="{Binding Card.Type}">
             <Picker.ItemsSource>
                 <x:Array Type="{x:Type x:String}">
                     <x:String>Visa</x:String>
                     <x:String>Ticket</x:String>
                     <x:String>MasterCard</x:String>
-                </x:Array>
-                
+                </x:Array>                
             </Picker.ItemsSource>
         </Picker>
-        <Label Text="Amount" />
-        <Entry Text="{Binding Amount}"/>
+        <Picker x:Name="BalanceTypePicker"
+                Title="Select BalanceType"
+                SelectedItem="{Binding Card.BalanceType}">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Balance $</x:String>
+                    <x:String>Discount %</x:String>
+                    <x:String>Credit $</x:String>
+                </x:Array>
+            </Picker.ItemsSource>            
+        </Picker>
+        <Label Text="Amount" />            
+        <Entry Text="{Binding Card.Amount}"/>
         </StackLayout>
         <StackLayout>
             <StackLayout Orientation="Horizontal"
                      HorizontalOptions="CenterAndExpand">
-            <Button Text="DelDb" Command="{Binding ListViewModel.DelFromDbCommand}"
-                    CommandParameter="{Binding}"/>
-            <Button Text="SaveDb" Command="{Binding ListViewModel.SaveToDbCommand}"
-                    CommandParameter="{Binding}"/>
-            <Button Text="Save" Command="{Binding ListViewModel.SaveCardCommand}"
-                    CommandParameter="{Binding}"
+            <Button Text="Generate ID" Command="{Binding GenerateIdCommand}"
+                    />              
+            <Button Text="Save" Command="{Binding SaveCardCommand}"         
                     />
-            <Button Text="Remove" Command="{Binding ListViewModel.DelCardCommand}"
-                    CommandParameter="{Binding}"
+            <Button Text="Remove" Command="{Binding DelCardCommand}"
                     />
-            <Button Text="Back" Command="{Binding Path = ListViewModel.BackCommand}"
-                                        />
+            <Button Text="Back(SaveEdited)" Command="{Binding BackCommand}"
+                    />
             </StackLayout>
         </StackLayout>
     </StackLayout>

@@ -4,118 +4,71 @@ using Xamarin.Forms;
 using System.ComponentModel;
 using Cards_Manager.Views;
 using System.Collections.ObjectModel;
-using MySqlConnector;
+using Cards_Manager.Models;
+using System.Threading.Tasks;
 
 namespace Cards_Manager.ViewModels
 {
-    public class CardsListViewModel : ImplementsINotifyPCh
+    public class CardsListViewModel : BaseViewModel
     {
-        public ObservableCollection<CardViewModel> CardsObserverList { get; set; }
-        
-        public ICommand AddCardCommand { set; get; }
-        public ICommand DelCardCommand {  set; get; }
-        public ICommand SaveCardCommand {  set; get; }
-        public ICommand BackCommand { set; get; }
-        public ICommand SaveToDbCommand { set; get; }
-        public ICommand DelFromDbCommand { set; get; }
-        CardViewModel SelectedCard;
-        public INavigation Navigation { get; set; }
-        
-        public CardsListViewModel()
+        private Card selectedCard;        
+
+        public ObservableCollection<Card> CardsObserverList { get; set; }               
+
+        public Card SelectedCard
         {
-            CardsObserverList = new ObservableCollection<CardViewModel>();
-            OnPropertyChanged(nameof(CardsObserverList));
-            DelFromDbCommand = new Command(DelFromDb);
-            SaveToDbCommand = new Command(SaveToDb);
-            AddCardCommand = new Command(AddCard);
-            DelCardCommand = new Command(DeleteCard);
-            
-            BackCommand = new Command(Back);
-        }
-
-        private void DelFromDb(object Cardobj)
-        {
-            CardViewModel Card = Cardobj as CardViewModel;
-
-            if (Card != null)
-            {
-                string CommandDb = "DELETE FROM `Cards` WHERE `Cards`.`Type` = @Type AND `Cards`.`Amount` = @Amount AND  `Cards`.`Name` = @name";
-
-                DB dB = new DB();
-                dB.OpenConnection();
-                MySqlCommand mySqlCommand = new MySqlCommand(CommandDb, dB.GetConnection());
-                mySqlCommand.Parameters.Add("@Type", MySqlDbType.VarChar).Value = Card.Type;
-                mySqlCommand.Parameters.Add("@Name", MySqlDbType.VarChar).Value = Card.Name;
-                mySqlCommand.Parameters.Add("@Amount", MySqlDbType.VarChar).Value = Card.Amount;
-
-                mySqlCommand.ExecuteNonQuery();
-                dB.CloseConnection();
-            }
-        }
-
-        private void SaveToDb(object Cardobj)
-        {
-            CardViewModel Card = Cardobj as CardViewModel;
-            
-            if (Card != null)
-            {
-                string CommandDb = "INSERT INTO `Cards`(`Type`, `Name`, `Amount`) VALUES(@Type, @Name, @Amount)";
-
-                DB dB = new DB();
-                dB.OpenConnection();
-                MySqlCommand mySqlCommand = new MySqlCommand(CommandDb, dB.GetConnection());
-                mySqlCommand.Parameters.Add("@Type",MySqlDbType.VarChar).Value = Card.Type;
-                mySqlCommand.Parameters.Add("@Name", MySqlDbType.VarChar).Value = Card.Name;
-                mySqlCommand.Parameters.Add("@Amount", MySqlDbType.VarChar).Value = Card.Amount;
-                
-                mySqlCommand.ExecuteNonQuery();
-                dB.CloseConnection();
-            }
-        }
-
-        public CardViewModel SelectCard
-        {
-            get { return SelectedCard; }
+            get => selectedCard;
             set
             {
-                if (SelectedCard != value)
-                {
-                    CardViewModel temporarycard = value;
-                    SelectCard = null;
-                    OnPropertyChanged("Select Card");
-                    Navigation.PushAsync(new CardPage(temporarycard));
-                }
+                selectedCard = value;
+                OnPropertyChanged(nameof(SelectedCard));
             }
-            
-        }
-        public  void DeleteCard (object Cardobj)
-        {
-            CardViewModel Card = Cardobj as CardViewModel;
-            if (Card != null)
-            {
-                foreach(var card in CardsObserverList)
-                {
-                    if(Card.Name != card.Name || Card.Amount != card.Amount)
-                    {
-                        continue;
-                    }
-                    CardsObserverList.Remove(card);
-                    break;
-                }
+        }       
 
-                //CardsObserverList.Remove(Card);
+        public ICommand ShowMenuCommand { get; set; }
+        public ICommand EditSelectedCardCommand { get; set; }
+        public ICommand DelSelectedCardCommand { get; set; }
+
+        public CardsListViewModel(INavigation navigation) : base(navigation)
+        {
+            CardsObserverList = new ObservableCollection<Card>();
+            ShowMenuCommand = new Command(ShowAddingMenu);
+            EditSelectedCardCommand = new Command(EditSelectedCard);
+            DelSelectedCardCommand = new Command(DeleteSelectedCard);
+        }
+
+        public override Task OnAppearing()
+        {
+            CardsObserverList.Clear();
+            foreach (var card in CardManager.Instance.CardsList)
+            {
+                CardsObserverList.Add(card);
             }
-            Back();
+            return Task.CompletedTask;
         }
-        public async void Back()
+
+        private void DeleteSelectedCard()
         {
-           await Navigation.PopAsync();
+            if (SelectedCard != null)
+            {
+                CardsObserverList.Remove(SelectedCard);
+                CardManager.Instance.CardsList.Remove(SelectedCard);
+                SelectedCard = null;
+            }
+        }        
+
+        private async void EditSelectedCard()
+        {
+            if (SelectedCard != null)
+            {                              
+                await Navigation.PushAsync(new CardPage(new CardViewModel(Navigation,SelectedCard)));
+                SelectedCard = null;
+            }
         }
-        
-        private void AddCard()
+
+        private async void ShowAddingMenu()
         {
-            Navigation.PushAsync(new CardPage(new CardViewModel()
-            { ListViewModel = this }));
+            await Navigation.PushAsync(new CardPage(new CardViewModel(Navigation)));
         }
     }
 }

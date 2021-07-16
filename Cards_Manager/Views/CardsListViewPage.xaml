@@ -2,32 +2,58 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="Cards_Manager.Views.CardsListViewPage"
+    xmlns:local ="clr-namespace:Cards_Manager.Converters"    
+    x:Class="Cards_Manager.Views.CardsListViewPage"    
     Title="Cards Manager"
     >
-    <StackLayout>
-        <Button
-            Text="Add"
-            Command="{Binding AddCardCommand}"  
-        />
-        <ListView x:Name="Cards_List" ItemsSource="{Binding CardsObserverList}"
-                  
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:NullToBoolConverter x:Key="nullToBool"/>            
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <StackLayout>        
+        <ListView x:Name="Cards_List" ItemsSource="{Binding CardsObserverList}"                  
                   SelectedItem="{Binding SelectedCard}"
+                  SeparatorVisibility="None"                                  
                   HasUnevenRows="True">
+                
             <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ImageCell                                
-                               ImageSource="{Binding Type}"
-                               Text="{Binding Name}"
-                               
-                               Detail="{Binding Amount}"
+                <DataTemplate>                    
+                    <ImageCell                        
+                               ImageSource="{Binding Type}"               
                                TextColor="DarkRed"
-                               DetailColor="GreenYellow"
+                               DetailColor="DarkBlue"
                                >
-                        
+                        <ImageCell.Detail>
+                            <Binding StringFormat="Id:{0}" Path="Id"/>
+                        </ImageCell.Detail>
+                        <ImageCell.Text>
+                            <MultiBinding StringFormat="{}{0} || {1} = {2}">
+                                <Binding Path="Name"/>
+                                <Binding Path="BalanceType"/>
+                                <Binding Path="Amount"/>
+                            </MultiBinding>
+                        </ImageCell.Text>                        
                     </ImageCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Padding="20">
+        <Button
+            Text="Add Card"
+            Command="{Binding ShowMenuCommand}"            
+        />
+        <Button                    
+            x:Name="Edit_btn"
+            Text="Edit"
+            IsVisible="{Binding SelectedCard, Converter={x:StaticResource nullToBool}}"
+            Command="{Binding EditSelectedCardCommand}"            
+            />
+        <Button x:Name="DelSelected_btn"
+                Text="Delete Selected"
+                IsVisible="{Binding SelectedCard, Converter={x:StaticResource nullToBool}}"
+                Command="{Binding DelSelectedCardCommand}"
+                />
+        </StackLayout>
     </StackLayout>   
 </ContentPage>
