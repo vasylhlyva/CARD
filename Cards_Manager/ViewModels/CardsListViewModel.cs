@@ -1,7 +1,5 @@
-﻿using System;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Xamarin.Forms;
-using System.ComponentModel;
 using Cards_Manager.Views;
 using System.Collections.ObjectModel;
 using Cards_Manager.Models;
@@ -12,9 +10,9 @@ namespace Cards_Manager.ViewModels
     public class CardsListViewModel : BaseViewModel
     {
         private Card selectedCard;
-        private ICardManager cardManager;       
+        private ICardManager cardManager;
 
-        public ObservableCollection<Card> CardsObserverList { get; set; }               
+        public ObservableCollection<Card> CardsObserverList { get; set; }
 
         public Card SelectedCard
         {
@@ -24,7 +22,7 @@ namespace Cards_Manager.ViewModels
                 selectedCard = value;
                 OnPropertyChanged(nameof(SelectedCard));
             }
-        }       
+        }
 
         public ICommand AddCardCommand { get; set; }
         public ICommand ShowTypeMenuCommand { get; set; }
@@ -48,6 +46,7 @@ namespace Cards_Manager.ViewModels
             {
                 CardsObserverList.Add(card);
             }
+
             return Task.CompletedTask;
         }
 
@@ -59,27 +58,28 @@ namespace Cards_Manager.ViewModels
                 cardManager.DeleteCard(SelectedCard);
                 SelectedCard = null;
             }
-        }        
+        }
 
         private async void EditSelectedCard()
         {
             if (SelectedCard != null)
             {
-                await Navigation.PushAsync(new CardPage(new CardViewModel(Navigation,cardManager,SelectedCard)));
+                await Navigation.PushAsync(new CardPage(new CardViewModel(Navigation, cardManager, SelectedCard)));
                 SelectedCard = null;
             }
         }
 
         private async void ShowTypeMenu()
         {
-            await Navigation.PushAsync(new TypeSelectPage(new CardTypeSelectViewModel(Navigation,cardManager)));//card type
+            await Navigation.PushAsync(
+                new TypeSelectPage(new CardTypeSelectViewModel(Navigation, cardManager))); //card type
             //await Navigation.PushAsync(new CardPage(new CardViewModel(Navigation,cardManager)));
         }
 
         private async void ShowAddingMenu()
         {
             //await Navigation.PushAsync(new TypeSelectPage(new CardViewModel(Navigation, cardManager)));
-            await Navigation.PushAsync(new CardPage(new CardViewModel(Navigation,cardManager)));
+            await Navigation.PushAsync(new CardPage(new CardViewModel(Navigation, cardManager)));
         }
     }
 }

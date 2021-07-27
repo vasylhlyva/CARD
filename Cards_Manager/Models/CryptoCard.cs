@@ -1,10 +1,10 @@
-﻿using System;
-namespace Cards_Manager.Models
+﻿namespace Cards_Manager.Models
 {
     public class CryptoCard : Card
     {
         private int bitcoins;
         private string imagePath = nameof(CryptoCard);
+
         public int Balance
         {
             get { return bitcoins; }
@@ -15,6 +15,10 @@ namespace Cards_Manager.Models
             }
         }
 
-        public string ImagePath { get => imagePath; set => imagePath = value; }
+        public string ImagePath
+        {
+            get => imagePath;
+            set => imagePath = value;
+        }
     }
 }

@@ -1,10 +1,10 @@
-﻿using System;
-namespace Cards_Manager.Models
+﻿namespace Cards_Manager.Models
 {
     public class CreditCard : Card
     {
         private int credit;
         private string imagePath = nameof(CreditCard);
+
         public int CreditBalance
         {
             get { return credit; }
@@ -15,6 +15,10 @@ namespace Cards_Manager.Models
             }
         }
 
-        public string ImagePath { get => imagePath; set => imagePath = value; }
+        public string ImagePath
+        {
+            get => imagePath;
+            set => imagePath = value;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
 <ContentView
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -6,28 +7,27 @@
     x:Class="Cards_Manager.Views.CryptoCardView">
     <ContentView.Resources>
         <ResourceDictionary>
-            <local:InverseNullToBoolConverter x:Key="inverseNullToBoolConverter"/>           
+            <local:InverseNullToBoolConverter x:Key="inverseNullToBoolConverter" />
         </ResourceDictionary>
     </ContentView.Resources>
     <ContentView.Content>
-         <StackLayout>
+        <StackLayout>
             <Entry IsEnabled="{Binding Card.Id, Converter={x:StaticResource inverseNullToBoolConverter}}">
                 <Entry.Text>
-                    <Binding StringFormat="{} Id:{0}" Path="Card.Id">
-                    </Binding>
+                    <Binding StringFormat="{} Id:{0}" Path="Card.Id" />
                 </Entry.Text>
             </Entry>
-            <Label                
-                Text="Number"/>
-            <Entry  IsEnabled="{Binding Card.CardNumber, Converter={x:StaticResource inverseNullToBoolConverter}}">
+            <Label
+                Text="Number" />
+            <Entry IsEnabled="{Binding Card.CardNumber, Converter={x:StaticResource inverseNullToBoolConverter}}">
                 <Entry.Text>
-                    <Binding StringFormat="{} N:{0}" Path="Card.CardNumber"/>
-                </Entry.Text>               
+                    <Binding StringFormat="{} N:{0}" Path="Card.CardNumber" />
+                </Entry.Text>
             </Entry>
-            <Label Text="Name"/>
-        <Entry Text="{Binding Card.Name}"/>
-        <Label Text="CryptoBalance"/>
-        <Entry Text="{Binding Card.Balance}"/>
+            <Label Text="Name" />
+            <Entry Text="{Binding Card.Name}" />
+            <Label Text="CryptoBalance" />
+            <Entry Text="{Binding Card.Balance}" />
         </StackLayout>
     </ContentView.Content>
 </ContentView>

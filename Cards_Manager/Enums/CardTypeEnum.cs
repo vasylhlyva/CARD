@@ -1,5 +1,4 @@
-﻿using System;
-namespace Cards_Manager.Enums
+﻿namespace Cards_Manager.Enums
 {
     public enum CardTypeEnum
     {

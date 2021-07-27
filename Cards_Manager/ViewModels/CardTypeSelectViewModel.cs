@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows.Input;
 using Cards_Manager.Models;
 using Cards_Manager.Views;
 using Xamarin.Forms;
-using System.Linq;
 using Cards_Manager.Enums;
 
 namespace Cards_Manager.ViewModels
@@ -44,14 +42,12 @@ namespace Cards_Manager.ViewModels
                 default:
                     return new Card();
             }
-
-            ;
         }
 
         private async void ShowAddingMenu()
         {
-            var Card = GetCardByType(SelectedCardType);
-            await Navigation.PushAsync(new CardPage(new CardViewModel(Navigation, cardManager, Card)));
+            var card = GetCardByType(SelectedCardType);
+            await Navigation.PushAsync(new CardPage(new CardViewModel(Navigation, cardManager, card)));
         }
     }
 }

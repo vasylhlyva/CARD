@@ -1,5 +1,4 @@
-﻿using System;
-namespace Cards_Manager.Models
+﻿namespace Cards_Manager.Models
 {
     public class TicketCreator : CardCreator
     {

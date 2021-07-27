@@ -1,40 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using Cards_Manager.Implementations;
-using Cards_Manager.ViewModels;
+﻿using Cards_Manager.Implementations;
 
 namespace Cards_Manager.Models
-{    
+{
     public class Card : ImplementsINotifyPropertyChanged
     {
         private string name;
-        private long? cardNumber = null;        
-        private int? id = null;        
+        private long? cardNumber = null;
+        private int? id = null;
 
         public long? CardNumber
         {
-            get { return cardNumber; }
+            get => cardNumber;
             set
             {
-                if (cardNumber == null) {
+                if (cardNumber == null)
+                {
                     cardNumber = value;
                     OnPropertyChanged(nameof(CardNumber));
-                }                
+                }
             }
         }
 
         public int? Id
         {
-            get { return id; }
+            get => id;
             set
             {
-                if(id == null)
+                if (id == null)
                 {
                     id = value;
                     OnPropertyChanged(nameof(Id));
                 }
             }
-        }              
+        }
 
         public string Name
         {
@@ -44,8 +42,6 @@ namespace Cards_Manager.Models
                 name = value;
                 OnPropertyChanged(nameof(Name));
             }
-        }    
-
-
+        }
     }
 }

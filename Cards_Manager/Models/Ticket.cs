@@ -1,10 +1,9 @@
-﻿using System;
-namespace Cards_Manager.Models
+﻿namespace Cards_Manager.Models
 {
     public class Ticket : Card
     {
         private int discount;
-        private string imagePath = nameof(Ticket);
+
         public int Discount
         {
             get { return discount; }
@@ -15,6 +14,11 @@ namespace Cards_Manager.Models
             }
         }
 
-        public string ImagePath { get => imagePath; set => imagePath = value; }
+        public string ImagePath { get; set; }
+
+        public Ticket()
+        {
+            ImagePath = nameof(Ticket);
+        }
     }
 }

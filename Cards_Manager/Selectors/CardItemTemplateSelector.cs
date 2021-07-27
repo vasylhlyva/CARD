@@ -1,7 +1,5 @@
 ﻿using System;
-using Cards_Manager.ViewModels;
 using Xamarin.Forms;
-using Cards_Manager.Enums;
 using Cards_Manager.Models;
 
 namespace Cards_Manager.Selectors

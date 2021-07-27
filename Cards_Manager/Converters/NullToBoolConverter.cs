@@ -8,13 +8,7 @@ namespace Cards_Manager.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null || value.GetType() != parameter)
-            {
-                return false;
-            }
-            else {
-                return true;
-            }
+            return value != null && value.GetType() == parameter;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
