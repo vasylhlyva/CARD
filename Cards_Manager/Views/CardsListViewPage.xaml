@@ -1,59 +1,109 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local ="clr-namespace:Cards_Manager.Converters"    
-    x:Class="Cards_Manager.Views.CardsListViewPage"    
-    Title="Cards Manager"
-    >
+    xmlns:local="clr-namespace:Cards_Manager.Converters"
+    x:Class="Cards_Manager.Views.CardsListViewPage"
+    xmlns:selector="clr-namespace:Cards_Manager.Selectors"
+    Title="Cards Manager">
     <ContentPage.Resources>
         <ResourceDictionary>
-            <local:NullToBoolConverter x:Key="nullToBool"/>            
+            <local:NullToBoolConverter x:Key="nullToBoolConverter" />
+            <DataTemplate x:Key="creditTemplate">
+                <ViewCell>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="100" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Image HorizontalOptions="FillAndExpand"
+                               VerticalOptions="FillAndExpand"
+                               Aspect="AspectFill"
+                               Source="{Binding ImagePath}"
+                               Grid.Row="0"
+                               Grid.Column="0"
+                               Grid.RowSpan="2"
+                               Grid.ColumnSpan="2" />
+                        <Label HorizontalOptions="Center"
+                               VerticalOptions="Start"
+                               Grid.Row="0"
+                               Text="{Binding CardNumber}" />
+                        <Label HorizontalOptions="Start"
+                               VerticalOptions="Start"
+                               Grid.Row="0"
+                               Text="{Binding Id}" />
+                        <Label Grid.Row="0"
+                               HorizontalOptions="End"
+                               VerticalOptions="Start"
+                               Text="{Binding CreditBalance}" />
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+            <DataTemplate x:Key="cryptoTemplate">
+                <ImageCell ImageSource="{Binding }"
+                           TextColor="DarkRed"
+                           DetailColor="DarkBlue">
+                    <ImageCell.Detail>
+                        <MultiBinding StringFormat="No:{0} Id:{1}">
+                            <Binding Path="CardNumber" />
+                            <Binding Path="Id" />
+                        </MultiBinding>
+                    </ImageCell.Detail>
+                    <ImageCell.Text>
+                        <MultiBinding StringFormat="{}{0} || {1}">
+                            <Binding Path="Name" />
+                            <Binding Path="Balance" />
+                        </MultiBinding>
+                    </ImageCell.Text>
+                </ImageCell>
+            </DataTemplate>
+            <DataTemplate x:Key="ticketTemplate">
+                <ImageCell ImageSource="{Binding ImagePath}"
+                           TextColor="DarkRed"
+                           DetailColor="DarkBlue">
+                    <ImageCell.Detail>
+                        <MultiBinding StringFormat="No:{0} Id:{1}">
+                            <Binding Path="CardNumber" />
+                            <Binding Path="Id" />
+                        </MultiBinding>
+                    </ImageCell.Detail>
+                    <ImageCell.Text>
+                        <MultiBinding StringFormat="{}{0} || {1}">
+                            <Binding Path="Name" />
+                            <Binding Path="Discount" />
+                        </MultiBinding>
+                    </ImageCell.Text>
+                </ImageCell>
+            </DataTemplate>
+            <selector:CardItemTemplateSelector
+                x:Key="cardDataTemplateSelector"
+                CreditTemplate="{StaticResource creditTemplate}"
+                CryptoTemplate="{StaticResource cryptoTemplate}"
+                TicketTemplate="{StaticResource ticketTemplate}" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <StackLayout>        
-        <ListView x:Name="Cards_List" ItemsSource="{Binding CardsObserverList}"                  
+    <StackLayout>
+        <ListView ItemTemplate="{StaticResource cardDataTemplateSelector}"
+                  ItemsSource="{Binding CardsObserverList}"
                   SelectedItem="{Binding SelectedCard}"
-                  SeparatorVisibility="None"                                  
-                  HasUnevenRows="True">
-                
-            <ListView.ItemTemplate>
-                <DataTemplate>                    
-                    <ImageCell                        
-                               ImageSource="{Binding Type}"               
-                               TextColor="DarkRed"
-                               DetailColor="DarkBlue"
-                               >
-                        <ImageCell.Detail>
-                            <Binding StringFormat="Id:{0}" Path="Id"/>
-                        </ImageCell.Detail>
-                        <ImageCell.Text>
-                            <MultiBinding StringFormat="{}{0} || {1} = {2}">
-                                <Binding Path="Name"/>
-                                <Binding Path="BalanceType"/>
-                                <Binding Path="Amount"/>
-                            </MultiBinding>
-                        </ImageCell.Text>                        
-                    </ImageCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                  SeparatorVisibility="None"
+                  HasUnevenRows="True" />
         <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Padding="20">
-        <Button
-            Text="Add Card"
-            Command="{Binding ShowMenuCommand}"            
-        />
-        <Button                    
-            x:Name="Edit_btn"
-            Text="Edit"
-            IsVisible="{Binding SelectedCard, Converter={x:StaticResource nullToBool}}"
-            Command="{Binding EditSelectedCardCommand}"            
-            />
-        <Button x:Name="DelSelected_btn"
+            <Button
+                Text="Add Card"
+                Command="{Binding ShowTypeMenuCommand}" />
+            <Button
+
+                Text="Edit"
+                IsVisible="{Binding SelectedCard, Converter={x:StaticResource nullToBoolConverter}}"
+                Command="{Binding EditSelectedCardCommand}" />
+            <Button
                 Text="Delete Selected"
-                IsVisible="{Binding SelectedCard, Converter={x:StaticResource nullToBool}}"
-                Command="{Binding DelSelectedCardCommand}"
-                />
+                IsVisible="{Binding SelectedCard, Converter={x:StaticResource nullToBoolConverter}}"
+                Command="{Binding DelSelectedCardCommand}" />
         </StackLayout>
-    </StackLayout>   
+    </StackLayout>
 </ContentPage>

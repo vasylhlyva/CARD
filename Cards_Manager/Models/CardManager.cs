@@ -8,21 +8,19 @@ using Xamarin.Forms;
 
 namespace Cards_Manager.Models
 {
-    public class CardManager
+    public class CardManager : ICardManager
     {
-        public static CardManager instance;
-        public static CardManager Instance => instance ?? (instance = new CardManager());
-
         public List<Card> CardsList { get; }
-
-        private CardManager()
+        
+        public CardManager()
         {
-            CardsList = new List<Card>();           
-        }
+            CardsList = new List<Card>();
+        }       
 
         public void AddCardToList(Card card)
-        {             
-            if (card != null)
+        {
+            
+            if (card != null && card.CardNumber != null)
             {
                 CardsList.Add(card);
             }            
@@ -34,7 +32,7 @@ namespace Cards_Manager.Models
             {
                 foreach (var card in CardsList)
                 {
-                    if (Card.Name != card.Name || Card.Amount != card.Amount)
+                    if (Card.Id != card.Id)
                     {
                         continue;
                     }

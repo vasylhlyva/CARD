@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Cards_Manager.Implementations;
 using Xamarin.Forms;
 
 namespace Cards_Manager.ViewModels
@@ -24,6 +25,11 @@ namespace Cards_Manager.ViewModels
         public async void Back()
         {
             await Navigation.PopAsync();
+        }
+
+        public async Task NavigateToRootAsync()
+        {
+            await Navigation.PopToRootAsync();
         }
     }
 }

@@ -11,7 +11,8 @@ namespace Cards_Manager.ViewModels
 {
     public class CardsListViewModel : BaseViewModel
     {
-        private Card selectedCard;        
+        private Card selectedCard;
+        private ICardManager cardManager;       
 
         public ObservableCollection<Card> CardsObserverList { get; set; }               
 
@@ -25,14 +26,17 @@ namespace Cards_Manager.ViewModels
             }
         }       
 
-        public ICommand ShowMenuCommand { get; set; }
+        public ICommand AddCardCommand { get; set; }
+        public ICommand ShowTypeMenuCommand { get; set; }
         public ICommand EditSelectedCardCommand { get; set; }
         public ICommand DelSelectedCardCommand { get; set; }
 
-        public CardsListViewModel(INavigation navigation) : base(navigation)
+        public CardsListViewModel(INavigation navigation, ICardManager cardManager) : base(navigation)
         {
+            this.cardManager = cardManager;
             CardsObserverList = new ObservableCollection<Card>();
-            ShowMenuCommand = new Command(ShowAddingMenu);
+            AddCardCommand = new Command(ShowAddingMenu);
+            ShowTypeMenuCommand = new Command(ShowTypeMenu);
             EditSelectedCardCommand = new Command(EditSelectedCard);
             DelSelectedCardCommand = new Command(DeleteSelectedCard);
         }
@@ -40,7 +44,7 @@ namespace Cards_Manager.ViewModels
         public override Task OnAppearing()
         {
             CardsObserverList.Clear();
-            foreach (var card in CardManager.Instance.CardsList)
+            foreach (var card in cardManager.CardsList)
             {
                 CardsObserverList.Add(card);
             }
@@ -52,7 +56,7 @@ namespace Cards_Manager.ViewModels
             if (SelectedCard != null)
             {
                 CardsObserverList.Remove(SelectedCard);
-                CardManager.Instance.CardsList.Remove(SelectedCard);
+                cardManager.DeleteCard(SelectedCard);
                 SelectedCard = null;
             }
         }        
@@ -60,15 +64,22 @@ namespace Cards_Manager.ViewModels
         private async void EditSelectedCard()
         {
             if (SelectedCard != null)
-            {                              
-                await Navigation.PushAsync(new CardPage(new CardViewModel(Navigation,SelectedCard)));
+            {
+                await Navigation.PushAsync(new CardPage(new CardViewModel(Navigation,cardManager,SelectedCard)));
                 SelectedCard = null;
             }
         }
 
+        private async void ShowTypeMenu()
+        {
+            await Navigation.PushAsync(new TypeSelectPage(new CardTypeSelectViewModel(Navigation,cardManager)));//card type
+            //await Navigation.PushAsync(new CardPage(new CardViewModel(Navigation,cardManager)));
+        }
+
         private async void ShowAddingMenu()
         {
-            await Navigation.PushAsync(new CardPage(new CardViewModel(Navigation)));
+            //await Navigation.PushAsync(new TypeSelectPage(new CardViewModel(Navigation, cardManager)));
+            await Navigation.PushAsync(new CardPage(new CardViewModel(Navigation,cardManager)));
         }
     }
 }

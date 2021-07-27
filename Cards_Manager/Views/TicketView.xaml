@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Cards_Manager.Converters"
+    x:Class="Cards_Manager.Views.TicketView">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <local:InverseNullToBoolConverter x:Key="inverseNullToBoolConverter"/>           
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+         <StackLayout>
+            <Entry IsEnabled="{Binding Card.Id, Converter={x:StaticResource inverseNullToBoolConverter}}">
+                <Entry.Text>
+                    <Binding StringFormat="{} Id:{0}" Path="Card.Id">
+                    </Binding>
+                </Entry.Text>
+            </Entry>
+            <Label                
+                Text="Number"/>
+            <Entry  IsEnabled="{Binding Card.CardNumber, Converter={x:StaticResource inverseNullToBoolConverter}}">
+                <Entry.Text>
+                    <Binding StringFormat="{} N:{0}" Path="Card.CardNumber"/>
+                </Entry.Text>               
+            </Entry>
+            <Label Text="Name"/>
+        <Entry Text="{Binding Card.Name}"/>
+        <Label Text="Discount"/>
+        <Entry Text="{Binding Card.Discount}"/>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

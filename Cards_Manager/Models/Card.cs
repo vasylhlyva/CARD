@@ -1,44 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cards_Manager.Implementations;
 using Cards_Manager.ViewModels;
 
 namespace Cards_Manager.Models
-{
+{    
     public class Card : ImplementsINotifyPropertyChanged
     {
-        private int amount;
-        private string type;
         private string name;
-        private string id;
-        private string balanceType;
-        public string Id
+        private long? cardNumber = null;        
+        private int? id = null;        
+
+        public long? CardNumber
+        {
+            get { return cardNumber; }
+            set
+            {
+                if (cardNumber == null) {
+                    cardNumber = value;
+                    OnPropertyChanged(nameof(CardNumber));
+                }                
+            }
+        }
+
+        public int? Id
         {
             get { return id; }
             set
             {
-                id = value;
-                OnPropertyChanged(nameof(Id));
+                if(id == null)
+                {
+                    id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
-        }
-        public int Amount
-        {
-            get { return amount; }
-            set
-            {
-                amount = value;
-                OnPropertyChanged(nameof(Amount));
-            }
-        }
-
-        public string Type
-        {
-            get { return type; }
-            set
-            {
-                type = value;
-                OnPropertyChanged(nameof(Type));
-            }
-        }
+        }              
 
         public string Name
         {
@@ -48,16 +44,8 @@ namespace Cards_Manager.Models
                 name = value;
                 OnPropertyChanged(nameof(Name));
             }
-        }
+        }    
 
-        public string BalanceType
-        {
-            get{ return balanceType; }
-            set
-            {
-                balanceType = value;
-                OnPropertyChanged(nameof(BalanceType));
-            }
-        }
+
     }
 }

@@ -3,56 +3,33 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Cards_Manager.Views.CardPage"
+    xmlns:models="clr-namespace:Cards_Manager.Models"
+    xmlns:local ="clr-namespace:Cards_Manager.Converters"
+    xmlns:views="clr-namespace:Cards_Manager.Views"
    >
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:InverseNullToBoolConverter x:Key="inverseNullToBoolConverter"/>
+            <local:NullToBoolConverter x:Key="nullToBoolConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <StackLayout>
-        <StackLayout>
-            <Label
-                Text="Id"
-                />
-            <Entry
-                Text="{Binding Card.Id}"
-                />
-            <Label Text="Name" />
-        <Entry Text="{Binding Card.Name}"
-                />
-        <Label Text="Card Type" />
-        <Picker x:Name="picker"
-                Title="SelectType"
-                TitleColor="Red"
-                SelectedItem="{Binding Card.Type}">
-            <Picker.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>Visa</x:String>
-                    <x:String>Ticket</x:String>
-                    <x:String>MasterCard</x:String>
-                </x:Array>                
-            </Picker.ItemsSource>
-        </Picker>
-        <Picker x:Name="BalanceTypePicker"
-                Title="Select BalanceType"
-                SelectedItem="{Binding Card.BalanceType}">
-            <Picker.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>Balance $</x:String>
-                    <x:String>Discount %</x:String>
-                    <x:String>Credit $</x:String>
-                </x:Array>
-            </Picker.ItemsSource>            
-        </Picker>
-        <Label Text="Amount" />            
-        <Entry Text="{Binding Card.Amount}"/>
-        </StackLayout>
-        <StackLayout>
+        <views:CryptoCardView IsVisible="{Binding Card,Converter={x:StaticResource nullToBoolConverter},ConverterParameter={x:Type models:CryptoCard}}">
+
+        </views:CryptoCardView>
+        <views:CreditCardView IsVisible="{Binding Card,Converter={x:StaticResource nullToBoolConverter},ConverterParameter={x:Type models:CreditCard}}">
+
+        </views:CreditCardView>
+        <views:TicketView IsVisible="{Binding Card,Converter={x:StaticResource nullToBoolConverter},ConverterParameter={x:Type models:Ticket}}">
+        </views:TicketView>
+               <StackLayout>
             <StackLayout Orientation="Horizontal"
                      HorizontalOptions="CenterAndExpand">
-            <Button Text="Generate ID" Command="{Binding GenerateIdCommand}"
-                    />              
-            <Button Text="Save" Command="{Binding SaveCardCommand}"         
-                    />
-            <Button Text="Remove" Command="{Binding DelCardCommand}"
-                    />
-            <Button Text="Back(SaveEdited)" Command="{Binding BackCommand}"
-                    />
+            <Button Text="Generate Id" Command="{Binding GenerateCardNumberAndIdCommand}"
+                    IsEnabled = "{Binding Card.Id, Converter={x:StaticResource inverseNullToBoolConverter}}"/>
+            <Button Text="Create" Command="{Binding SaveCardCommand}"/>
+            <Button Text="Remove" Command="{Binding DeleteCardCommand}"/>
+            <Button Text="Back(SaveEdited)" Command="{Binding BackCommand}"/>
             </StackLayout>
         </StackLayout>
     </StackLayout>

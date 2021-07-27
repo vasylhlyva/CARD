@@ -8,8 +8,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
+    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <LangVersion>9.0</LangVersion>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
@@ -23,11 +27,19 @@
     <None Remove="MySqlConnector" />
     <None Remove="Xamarin.CommunityToolkit" />
     <None Remove="Converters\" />
+    <None Remove="Factory\" />
+    <None Remove="Enums\" />
+    <None Remove="Selector\" />
+    <None Remove="Implementations\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Views\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Converters\" />
+    <Folder Include="Factory\" />
+    <Folder Include="Enums\" />
+    <Folder Include="Selectors\" />
+    <Folder Include="Implementations\" />
   </ItemGroup>
 </Project>
