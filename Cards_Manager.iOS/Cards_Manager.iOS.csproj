@@ -113,18 +113,18 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon20.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Ticket.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\Ticket.imageset\Ticket-3.png" />
-    <ImageAsset Include="Assets.xcassets\Ticket.imageset\Ticket.png" />
-    <ImageAsset Include="Assets.xcassets\Ticket.imageset\Ticket-1.png" />
-    <ImageAsset Include="Assets.xcassets\CryptoCard.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\CryptoCard.imageset\Crypto.jpeg" />
-    <ImageAsset Include="Assets.xcassets\CryptoCard.imageset\Crypto-1.jpeg" />
-    <ImageAsset Include="Assets.xcassets\CryptoCard.imageset\Crypto-2.jpeg" />
     <ImageAsset Include="Assets.xcassets\CreditCard.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\CreditCard.imageset\MasterCard-1.png" />
-    <ImageAsset Include="Assets.xcassets\CreditCard.imageset\MasterCard-2.png" />
-    <ImageAsset Include="Assets.xcassets\CreditCard.imageset\MasterCard-3.png" />
+    <ImageAsset Include="Assets.xcassets\CreditCard.imageset\CreditCard.jpeg" />
+    <ImageAsset Include="Assets.xcassets\CreditCard.imageset\CreditCard-1.jpeg" />
+    <ImageAsset Include="Assets.xcassets\CreditCard.imageset\CreditCard-2.jpeg" />
+    <ImageAsset Include="Assets.xcassets\CryptoCard.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\CryptoCard.imageset\CryptoCard.png" />
+    <ImageAsset Include="Assets.xcassets\CryptoCard.imageset\CryptoCard-1.png" />
+    <ImageAsset Include="Assets.xcassets\CryptoCard.imageset\CryptoCard-2.png" />
+    <ImageAsset Include="Assets.xcassets\Ticket.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\Ticket.imageset\image.png" />
+    <ImageAsset Include="Assets.xcassets\Ticket.imageset\image-1.png" />
+    <ImageAsset Include="Assets.xcassets\Ticket.imageset\image-2.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -152,9 +152,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets.xcassets\Visa.imageset\" />
     <Folder Include="Assets.xcassets\Ticket.imageset\" />
     <Folder Include="Assets.xcassets\CryptoCard.imageset\" />
     <Folder Include="Assets.xcassets\CreditCard.imageset\" />
+    <Folder Include="Assets.xcassets\CryptoCard.imageset\" />
+    <Folder Include="Assets.xcassets\Ticket.imageset\" />
   </ItemGroup>
 </Project>

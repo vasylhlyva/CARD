@@ -14,69 +14,128 @@
                 <ViewCell>
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="100" />
+                            <RowDefinition Height="218"/>
                         </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
                         <Image HorizontalOptions="FillAndExpand"
                                VerticalOptions="FillAndExpand"
                                Aspect="AspectFill"
                                Source="{Binding ImagePath}"
                                Grid.Row="0"
-                               Grid.Column="0"
-                               Grid.RowSpan="2"
-                               Grid.ColumnSpan="2" />
+                               Grid.Column="0" />
                         <Label HorizontalOptions="Center"
                                VerticalOptions="Start"
                                Grid.Row="0"
-                               Text="{Binding CardNumber}" />
-                        <Label HorizontalOptions="Start"
-                               VerticalOptions="Start"
+                               TextColor="Brown">
+                            <Label.Text>
+                                <MultiBinding StringFormat="No:{0} Id:{1}">
+                                    <Binding Path="CardNumber" />
+                                    <Binding Path="Id" />
+                                </MultiBinding>
+                            </Label.Text>
+                        </Label>
+                        <Label HorizontalOptions="Center"
+                               VerticalOptions="Center"
                                Grid.Row="0"
-                               Text="{Binding Id}" />
+                               TextColor="Red"
+                               Text="{Binding Name}" />
                         <Label Grid.Row="0"
                                HorizontalOptions="End"
-                               VerticalOptions="Start"
-                               Text="{Binding CreditBalance}" />
+                               VerticalOptions="End"
+                               TextColor="OrangeRed">
+                            <Label.Text>
+                                <MultiBinding StringFormat="Credit balance: {0}$">
+                                    <Binding Path="CreditBalance" />
+                                </MultiBinding>
+                            </Label.Text>
+                        </Label>
                     </Grid>
                 </ViewCell>
             </DataTemplate>
             <DataTemplate x:Key="cryptoTemplate">
-                <ImageCell ImageSource="{Binding }"
-                           TextColor="DarkRed"
-                           DetailColor="DarkBlue">
-                    <ImageCell.Detail>
-                        <MultiBinding StringFormat="No:{0} Id:{1}">
-                            <Binding Path="CardNumber" />
-                            <Binding Path="Id" />
-                        </MultiBinding>
-                    </ImageCell.Detail>
-                    <ImageCell.Text>
-                        <MultiBinding StringFormat="{}{0} || {1}">
-                            <Binding Path="Name" />
-                            <Binding Path="Balance" />
-                        </MultiBinding>
-                    </ImageCell.Text>
-                </ImageCell>
+                <ViewCell>
+                    <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="218"/>
+                    </Grid.RowDefinitions>
+                    <Image HorizontalOptions="FillAndExpand"
+                           VerticalOptions="FillAndExpand"
+                           Aspect="AspectFill"
+                           Source="{Binding ImagePath}"
+                           Grid.Row="0"
+                           Grid.Column="0" />
+                    <Label HorizontalOptions="Center"
+                           Margin="10, 15"
+                           VerticalOptions="Start"
+                           Grid.Row="0"
+                           TextColor="White">
+                        <Label.Text>
+                            <MultiBinding StringFormat="Id:{1} No:{0}">
+                                <Binding Path="CardNumber" />
+                                <Binding Path="Id" />
+                            </MultiBinding>
+                        </Label.Text>
+                    </Label>
+                    <Label HorizontalOptions="Center"
+                           VerticalOptions="Start"
+                           Grid.Row="0"
+                           TextColor="Red"
+                           Text="{Binding Name}" />
+                    <Label Grid.Row="0"
+                           HorizontalOptions="End"
+                           VerticalOptions="End"
+                           TextColor="OrangeRed">
+                        <Label.Text>
+                            <MultiBinding StringFormat="Crypto balance: {0}$">
+                                <Binding Path="Balance" />
+                            </MultiBinding>
+                        </Label.Text>
+                    </Label>
+                </Grid>
+                </ViewCell>
             </DataTemplate>
             <DataTemplate x:Key="ticketTemplate">
-                <ImageCell ImageSource="{Binding ImagePath}"
-                           TextColor="DarkRed"
-                           DetailColor="DarkBlue">
-                    <ImageCell.Detail>
-                        <MultiBinding StringFormat="No:{0} Id:{1}">
-                            <Binding Path="CardNumber" />
-                            <Binding Path="Id" />
-                        </MultiBinding>
-                    </ImageCell.Detail>
-                    <ImageCell.Text>
-                        <MultiBinding StringFormat="{}{0} || {1}">
-                            <Binding Path="Name" />
-                            <Binding Path="Discount" />
-                        </MultiBinding>
-                    </ImageCell.Text>
-                </ImageCell>
+                <ViewCell>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="218"/>
+                        </Grid.RowDefinitions>
+                        <Image HorizontalOptions="FillAndExpand"
+                               VerticalOptions="FillAndExpand"
+                               Aspect="AspectFill"
+                               Source="{Binding ImagePath}"
+                               Grid.Row="0"
+                               Grid.Column="0" />
+                        <Label HorizontalOptions="Center"
+                               Margin="10, 15"
+                               VerticalOptions="CenterAndExpand"
+                               Grid.Row="0"
+                               TextColor="White">
+                            <Label.Text>
+                                <MultiBinding StringFormat="Id:{1} No:{0}">
+                                    <Binding Path="CardNumber" />
+                                    <Binding Path="Id" />
+                                </MultiBinding>
+                            </Label.Text>
+                        </Label>
+                        <Label HorizontalOptions="Center"
+                               VerticalOptions="Start"
+                               Grid.Row="0"
+                               TextColor="Red"
+                               
+                               Text="{Binding Name}" />
+                        <Label Grid.Row="0"
+                               HorizontalOptions="End"
+                               VerticalOptions="End"
+                               Margin="10, 15,80, 40"
+                               TextColor="OrangeRed">
+                            <Label.Text>
+                                <MultiBinding StringFormat="Discount: {0}">
+                                    <Binding Path="Discount" />
+                                </MultiBinding>
+                            </Label.Text>
+                        </Label>
+                    </Grid>
+                </ViewCell>
             </DataTemplate>
             <selector:CardItemTemplateSelector
                 x:Key="cardDataTemplateSelector"
@@ -89,14 +148,14 @@
         <ListView ItemTemplate="{StaticResource cardDataTemplateSelector}"
                   ItemsSource="{Binding CardsObserverList}"
                   SelectedItem="{Binding SelectedCard}"
-                  SeparatorVisibility="None"
-                  HasUnevenRows="True" />
+                  SeparatorVisibility="Default"
+                  HasUnevenRows="True" 
+                  VerticalScrollBarVisibility="Always"/>
         <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Padding="20">
             <Button
                 Text="Add Card"
                 Command="{Binding ShowTypeMenuCommand}" />
             <Button
-
                 Text="Edit"
                 IsVisible="{Binding SelectedCard, Converter={x:StaticResource nullToBoolConverter}}"
                 Command="{Binding EditSelectedCardCommand}" />
