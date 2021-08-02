@@ -28,6 +28,7 @@ namespace Cards_Manager.ViewModels
         public ICommand ShowTypeMenuCommand { get; set; }
         public ICommand EditSelectedCardCommand { get; set; }
         public ICommand DelSelectedCardCommand { get; set; }
+      
 
         public CardsListViewModel(INavigation navigation, ICardManager cardManager) : base(navigation)
         {
@@ -38,7 +39,7 @@ namespace Cards_Manager.ViewModels
             EditSelectedCardCommand = new Command(EditSelectedCard);
             DelSelectedCardCommand = new Command(DeleteSelectedCard);
         }
-
+        
         public override Task OnAppearing()
         {
             CardsObserverList.Clear();
@@ -46,7 +47,6 @@ namespace Cards_Manager.ViewModels
             {
                 CardsObserverList.Add(card);
             }
-
             return Task.CompletedTask;
         }
 

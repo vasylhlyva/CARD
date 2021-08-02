@@ -6,6 +6,7 @@
     xmlns:local="clr-namespace:Cards_Manager.Converters"
     x:Class="Cards_Manager.Views.CardsListViewPage"
     xmlns:selector="clr-namespace:Cards_Manager.Selectors"
+    xmlns:models="clr-namespace:Cards_Manager.Models"
     Title="Cards Manager">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -18,7 +19,6 @@
                         </Grid.RowDefinitions>
                         <Image HorizontalOptions="FillAndExpand"
                                VerticalOptions="FillAndExpand"
-                               Aspect="AspectFill"
                                Source="{Binding ImagePath}"
                                Grid.Row="0"
                                Grid.Column="0" />
@@ -59,7 +59,6 @@
                     </Grid.RowDefinitions>
                     <Image HorizontalOptions="FillAndExpand"
                            VerticalOptions="FillAndExpand"
-                           Aspect="AspectFill"
                            Source="{Binding ImagePath}"
                            Grid.Row="0"
                            Grid.Column="0" />
@@ -90,7 +89,7 @@
                             </MultiBinding>
                         </Label.Text>
                     </Label>
-                </Grid>
+                    </Grid>
                 </ViewCell>
             </DataTemplate>
             <DataTemplate x:Key="ticketTemplate">
@@ -101,7 +100,6 @@
                         </Grid.RowDefinitions>
                         <Image HorizontalOptions="FillAndExpand"
                                VerticalOptions="FillAndExpand"
-                               Aspect="AspectFill"
                                Source="{Binding ImagePath}"
                                Grid.Row="0"
                                Grid.Column="0" />
@@ -121,7 +119,6 @@
                                VerticalOptions="Start"
                                Grid.Row="0"
                                TextColor="Red"
-                               
                                Text="{Binding Name}" />
                         <Label Grid.Row="0"
                                HorizontalOptions="End"
@@ -134,11 +131,18 @@
                                 </MultiBinding>
                             </Label.Text>
                         </Label>
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding TapCommand}"
+                                                  CommandParameter="{Binding SelectedCard}">
+                            </TapGestureRecognizer>
+                        </Grid.GestureRecognizers>
                     </Grid>
                 </ViewCell>
             </DataTemplate>
             <selector:CardItemTemplateSelector
                 x:Key="cardDataTemplateSelector"
+                TestDataTemplate="{StaticResource TestDataTemplate}"
                 CreditTemplate="{StaticResource creditTemplate}"
                 CryptoTemplate="{StaticResource cryptoTemplate}"
                 TicketTemplate="{StaticResource ticketTemplate}" />

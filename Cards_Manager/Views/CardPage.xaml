@@ -6,6 +6,7 @@
     xmlns:models="clr-namespace:Cards_Manager.Models"
     xmlns:local ="clr-namespace:Cards_Manager.Converters"
     xmlns:views="clr-namespace:Cards_Manager.Views"
+    
    >
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -13,16 +14,18 @@
             <local:NullToBoolConverter x:Key="nullToBoolConverter"/>
         </ResourceDictionary>
     </ContentPage.Resources>
+    
     <StackLayout>
-        <views:CryptoCardView IsVisible="{Binding Card,Converter={x:StaticResource nullToBoolConverter},ConverterParameter={x:Type models:CryptoCard}}">
-
-        </views:CryptoCardView>
         <views:CreditCardView IsVisible="{Binding Card,Converter={x:StaticResource nullToBoolConverter},ConverterParameter={x:Type models:CreditCard}}">
-
         </views:CreditCardView>
+        
+        <views:CryptoCardView IsVisible="{Binding Card,Converter={x:StaticResource nullToBoolConverter},ConverterParameter={x:Type models:CryptoCard}}">
+        </views:CryptoCardView>
+       
         <views:TicketView IsVisible="{Binding Card,Converter={x:StaticResource nullToBoolConverter},ConverterParameter={x:Type models:Ticket}}">
         </views:TicketView>
-               <StackLayout>
+        
+        <StackLayout>
             <StackLayout Orientation="Horizontal"
                      HorizontalOptions="CenterAndExpand">
             <Button Text="Generate Id" Command="{Binding GenerateCardNumberAndIdCommand}"
